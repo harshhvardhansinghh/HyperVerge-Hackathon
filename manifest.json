@@ -1,0 +1,29 @@
+{
+  "manifest_version": 2,
+  "name": "Digital Notice Board",
+  "version": "1.0",
+  "description": "A digital notice board for better collaboration and communication",
+  "permissions": ["storage", "activeTab", "https://www.googleapis.com/*"],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "browser_action": {
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "Open Digital Notice Board"
+  },
+  "chrome_url_overrides": {
+    "newtab": "homepage.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "web_accessible_resources": ["homepage.html"]
+}

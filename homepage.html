@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Notice Board</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/interactjs@latest/dist/interact.min.js"></script>
+  </head>
+<body>
+  <h1>Digital Notice Board</h1>
+
+  <div class="main-container">
+    <div id="announcements" class="widget large-widget">
+      <h2>Announcements</h2>
+      <!-- Content for Announcements -->
+      <div class="resize-handle se"></div>
+    </div>
+
+    <div class="flex-container">
+      <div id="googleSlides" class="widget medium-widget">
+        <h2>Google Slides</h2>
+        <!-- Content for Google Slides -->
+        <div class="resize-handle se"></div>
+      </div>
+
+      <div id="pomodoroTimer" class="widget small-widget">
+        <h2>Pomodoro Timer</h2>
+        <div class="pomodoro-controls">
+          <p id="timerDisplay">25:00</p>
+          <button id="startTimer">Start</button>
+          <button id="stopTimer">Stop</button>
+          <button id="resetTimer">Reset</button>
+        </div>
+        <div class="resize-handle se"></div>
+      </div>
+
+      <div id="music" class="widget small-widget">
+        <h2>Music</h2>
+        <div class="music-input">
+          <input type="text" placeholder="Search for music...">
+          <button>Play</button>
+        </div>
+        <!-- Content for Music -->
+        <div class="resize-handle se"></div>
+      </div>
+    </div>
+
+    <!-- Other widgets are omitted for clarity -->
+    <div id="googleSpreadsheet" class="widget medium-widget">
+      Google Spreadsheet
+      <div class="resize-handle se"></div>
+    </div>
+    <div id="googleForm" class="widget medium-widget">
+      Google Form
+      <div class="resize-handle se"></div>
+    </div>
+    <div id="pollWidget" class="widget small-widget">
+      Poll Widget
+      <div class="resize-handle se"></div>
+    </div>
+    <div id="bookQuote" class="widget small-widget">
+      Book Quote
+      <div class="resize-handle se"></div>
+    </div>
+    <div id="issueTracker" class="widget medium-widget">
+      Issue Tracker
+      <div class="resize-handle se"></div>
+    </div>
+    <div id="dgc" class="widget small-widget">
+      DGC
+      <div class="resize-handle se"></div>
+    </div>
+    <div id="stepsTracker" class="widget small-widget">
+      Steps Tracker
+      <div class="resize-handle se"></div>
+    </div>
+    <div id="opportunityBoard" class="widget medium-widget">
+      Opportunity Board
+      <div class="resize-handle se"></div>
+    </div>
+    <div id="leaderboard" class="widget large-widget">
+      Leaderboard
+      <div class="resize-handle se"></div>
+    </div>
+    <div id="til" class="widget small-widget">
+      Today I Learned
+      <div class="resize-handle se"></div>
+    </div>
+    <div id="googleCalendar" class="widget medium-widget">
+      Google Calendar
+      <div class="resize-handle se"></div>
+    </div>
+    <div id="googleMeet" class="widget small-widget">
+      Google Meet
+      <div class="resize-handle se"></div>
+    </div>
+    <div id="googleKeep" class="widget small-widget">
+      Google Keep
+      <div class="resize-handle se"></div>
+    </div>
+    <div id="chatGPT" class="widget medium-widget">
+      ChatGPT
+      <div class="resize-handle se"></div>
+    </div>
+    <div id="notionPage" class="widget large-widget">
+      Notion Page
+      <div class="resize-handle se"></div>
+    </div>
+    <div id="meta" class="widget small-widget">
+      Meta
+      <div class="resize-handle se"></div>
+    </div>
+  </div>
+
+  <script src="homepage.js"></script>
+</body>
+</html>

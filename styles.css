@@ -1,0 +1,97 @@
+/* General styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* Main container styles */
+.main-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Flex container styles */
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 100%;
+}
+
+/* Widget styles */
+.widget {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    position: relative;
+}
+
+/* Widget sizing */
+.large-widget {
+    flex: 1 1 400px; /* Flex-grow, flex-shrink, and flex-basis */
+}
+
+.medium-widget {
+    flex: 1 1 250px;
+}
+
+.small-widget {
+    flex: 1 1 150px;
+}
+
+/* Flexbox controls */
+.pomodoro-controls, .music-input {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.pomodoro-controls button, .music-input button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.pomodoro-controls button:hover, .music-input button:hover {
+    background-color: #0056b3;
+}
+
+.pomodoro-controls button:active, .music-input button:active {
+    background-color: #003d7a;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .main-container, .flex-container {
+        flex-direction: column;
+    }
+
+    .widget {
+        width: 100%;
+    }
+
+    .music-input, .pomodoro-controls {
+        flex-direction: column;
+    }
+
+    .music-input input, .music-input button, .pomodoro-controls button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .music-input button {
+        margin-left: 0;
+    }
+}
