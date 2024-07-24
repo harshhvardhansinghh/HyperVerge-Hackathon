@@ -30,7 +30,7 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     padding: 20px;
     transition: box-shadow 0.3s ease, transform 0.3s ease;
-    position: relative;
+    position: relative; /* Allows movement */
 }
 
 /* Widget sizing */
@@ -44,6 +44,18 @@ body {
 
 .small-widget {
     flex: 1 1 150px;
+}
+
+/* Resize handle styles */
+.resize-handle {
+    width: 16px;
+    height: 16px;
+    background: #007bff;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    cursor: se-resize;
+    border-radius: 0 0 0 4px;
 }
 
 /* Flexbox controls */

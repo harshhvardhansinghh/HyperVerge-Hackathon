@@ -374,30 +374,32 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Resize functionality
-document.querySelectorAll('.widget').forEach(widget => {
-  const handle = widget.querySelector('.resize-handle');
-  if (handle) {
-    handle.addEventListener('mousedown', e => {
-      const startX = e.clientX;
-      const startY = e.clientY;
-      const startWidth = parseInt(window.getComputedStyle(widget).width, 10);
-      const startHeight = parseInt(window.getComputedStyle(widget).height, 10);
+function initializeResize() {
+  document.querySelectorAll('.widget').forEach(widget => {
+    const handle = widget.querySelector('.resize-handle');
+    if (handle) {
+      handle.addEventListener('mousedown', e => {
+        const startX = e.clientX;
+        const startY = e.clientY;
+        const startWidth = parseInt(window.getComputedStyle(widget).width, 10);
+        const startHeight = parseInt(window.getComputedStyle(widget).height, 10);
 
-      function onMouseMove(e) {
-        widget.style.width = `${startWidth + e.clientX - startX}px`;
-        widget.style.height = `${startHeight + e.clientY - startY}px`;
-      }
+        function onMouseMove(e) {
+          widget.style.width = `${startWidth + e.clientX - startX}px`;
+          widget.style.height = `${startHeight + e.clientY - startY}px`;
+        }
 
-      function onMouseUp() {
-        document.removeEventListener('mousemove', onMouseMove);
-        document.removeEventListener('mouseup', onMouseUp);
-      }
+        function onMouseUp() {
+          document.removeEventListener('mousemove', onMouseMove);
+          document.removeEventListener('mouseup', onMouseUp);
+        }
 
-      document.addEventListener('mousemove', onMouseMove);
-      document.addEventListener('mouseup', onMouseUp);
-    });
-  }
-});
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+      });
+    }
+  });
+}
 
 // Drag and Drop Functionality
 function makeDraggable(element) {
@@ -429,32 +431,34 @@ function makeDraggable(element) {
   }
 }
 
-// Initialize widgets
+// Initialize Widgets
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize draggable functionality for all widgets
   document.querySelectorAll('.widget').forEach(widget => {
     makeDraggable(widget);
-    // Existing widget loading functions here
-    loadGoogleSlides(localStorage.getItem('googleSlidesUrl') || 'https://docs.google.com/presentation/d/1zkmVGobdPfQgsjIw6gUqJsjB8wvv9uBdT7ZHdaCjZ7Q/edit#slide=id.p');
-    loadGoogleSpreadsheet(localStorage.getItem('googleSpreadsheetUrl') || 'https://docs.google.com/spreadsheets/d/1D0mR9Vv9-cU8Wj7O7GT1gT9Fq3vT8xkfwZs5mM7w8Wg/edit?usp=sharing');
-    loadGoogleForm(localStorage.getItem('googleFormUrl') || 'https://docs.google.com/forms/d/e/1FAIpQLSfD_tWcd5MRbJtPqXtiR8u7C6q4jqYosYMyOuRIVfzMOfZ9gA/viewform');
-    loadMusic(localStorage.getItem('musicUrl') || 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
-    loadPoll();
-    loadBookAndQuote('The Great Gatsby', 'So we beat on, boats against the current, borne back ceaselessly into the past.');
-    loadIssueTracker();
-    loadDGC();
-    loadAnnouncements();
-    loadStepsTracker();
-    loadOpportunityBoard();
-    loadLeaderboard();
-    loadTIL();
-    loadGoogleCalendar();
-    loadGoogleMeet();
-    loadGoogleKeep();
-    loadChatGPT();
-    loadNotionPage();
   });
+  
+  // Initialize resize functionality
+  initializeResize();
+
+  // Load widgets
+  loadGoogleSlides(localStorage.getItem('googleSlidesUrl') || 'https://docs.google.com/presentation/d/1zkmVGobdPfQgsjIw6gUqJsjB8wvv9uBdT7ZHdaCjZ7Q/edit#slide=id.p');
+  loadGoogleSpreadsheet(localStorage.getItem('googleSpreadsheetUrl') || 'https://docs.google.com/spreadsheets/d/1D0mR9Vv9-cU8Wj7O7GT1gT9Fq3vT8xkfwZs5mM7w8Wg/edit?usp=sharing');
+  loadGoogleForm(localStorage.getItem('googleFormUrl') || 'https://docs.google.com/forms/d/e/1FAIpQLSfD_tWcd5MRbJtPqXtiR8u7C6q4jqYosYMyOuRIVfzMOfZ9gA/viewform');
+  loadMusic(localStorage.getItem('musicUrl') || 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
+  loadPoll();
+  loadBookAndQuote('The Great Gatsby', 'So we beat on, boats against the current, borne back ceaselessly into the past.');
+  loadIssueTracker();
+  loadDGC();
+  loadAnnouncements();
+  loadStepsTracker();
+  loadOpportunityBoard();
+  loadLeaderboard();
+  loadTIL();
+  loadGoogleCalendar();
+  loadGoogleMeet();
+  loadGoogleKeep();
+  loadChatGPT();
+  loadNotionPage();
 });
-
-
 
