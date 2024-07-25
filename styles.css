@@ -2,12 +2,11 @@
 body {
     font-family: 'Montserrat', Tahoma, Geneva, Verdana, sans-serif;
     background-image: url('https://wallpapercave.com/wp/wp9265048.jpg');
-
     margin: 0;
     padding: 0;
     color: #333;
 }
-.header{
+.header {
     text-align: center;
     color: #ac7817;
 }
@@ -57,7 +56,7 @@ body {
     box-shadow: none;
     padding: 0;
 }
-.x{
+.x {
     background: none;
     box-shadow: none;
     padding: 0; 
@@ -122,44 +121,10 @@ body {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-    .medium-widget, .small-widget {
+    .flex-container {
+        flex-direction: column;
+    }
+    .large-widget, .medium-widget, .small-widget {
         flex: 1 1 100%;
     }
-}
-
-/* General button styles */
-button {
-    background-color: #007bff; /* Primary color */
-    color: #fff; /* Text color */
-    border: none;
-    border-radius: 5px; /* Rounded corners */
-    padding: 10px 20px; /* Spacing inside the button */
-    font-size: 16px; /* Text size */
-    font-weight: 600; /* Bold text */
-    cursor: pointer; /* Pointer cursor on hover */
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    outline: none; /* Remove default outline */
-    display: inline-block;
-    text-align: center;
-}
-
-/* Hover effect */
-button:hover {
-    background-color: #0056b3; /* Darker shade for hover */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-}
-
-/* Active effect */
-button:active {
-    background-color: #004085; /* Even darker shade for active state */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Reduced shadow for active */
-    transform: translateY(1px); /* Slightly move down on click */
-}
-
-/* Disabled button styles */
-button:disabled {
-    background-color: #c0c0c0; /* Gray color for disabled state */
-    color: #6c757d; /* Lighter text color */
-    cursor: not-allowed; /* Change cursor to indicate disabled state */
-    box-shadow: none; /* Remove shadow */
 }

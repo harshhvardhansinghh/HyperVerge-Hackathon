@@ -1,46 +1,95 @@
-// Pomodoro Timer Functionality
-let timer;
-let isRunning = false;
-let timeLeft = 25 * 60; // 25 minutes in seconds
+// Initialize widgets with stored values and add interactive features
+document.addEventListener('DOMContentLoaded', () => {
+  // Load Widgets
+  loadGoogleSlides(localStorage.getItem('googleSlidesUrl') || 'https://docs.google.com/presentation/d/1zkmVGobdPfQgsjIw6gUqJsjB8wvv9uBdT7ZHdaCjZ7Q/edit#slide=id.p');
+  loadGoogleSpreadsheet(localStorage.getItem('googleSpreadsheetUrl') || 'https://docs.google.com/spreadsheets/d/1D0mR9Vv9-cU8Wj7O7GT1gT9Fq3vT8xkfwZs5mM7w8Wg/edit?usp=sharing');
+  loadGoogleForm(localStorage.getItem('googleFormUrl') || 'https://docs.google.com/forms/d/e/1FAIpQLSfD_tWcd5MRbJtPqXtiR8u7C6q4jqYosYMyOuRIVfzMOfZ9gA/viewform');
+  loadMusic(localStorage.getItem('musicUrl') || 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
+  loadPoll();
+  loadBookAndQuote('The Great Gatsby', 'So we beat on, boats against the current, borne back ceaselessly into the past.');
+  loadIssueTracker();
+  loadDGC();
+  loadAnnouncements();
+  loadStepsTracker();
+  loadOpportunityBoard();
+  loadLeaderboard();
+  loadTIL();
+  loadGoogleCalendar();
+  loadGoogleMeet();
+  loadGoogleKeep();
+  loadChatGPT();
+  loadNotionPage();
 
-function formatTime(seconds) {
-  const minutes = Math.floor(seconds / 60);
-  const secs = seconds % 60;
-  return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  // Apply drag-and-drop and resize functionality to all widgets
+  document.querySelectorAll('.widget').forEach(widget => {
+    makeDraggable(widget);
+    makeResizable(widget.querySelector('.resize-handle'));
+  });
+});
+
+// Utility Functions for Drag-and-Drop and Resizable Widgets
+function makeDraggable(element) {
+  let isDragging = false;
+  let startX, startY, startLeft, startTop;
+
+  element.addEventListener('mousedown', (e) => {
+    if (e.target.classList.contains('resize-handle')) return;
+    isDragging = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    startLeft = parseInt(window.getComputedStyle(element).left, 10);
+    startTop = parseInt(window.getComputedStyle(element).top, 10);
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  });
+
+  function onMouseMove(e) {
+    if (!isDragging) return;
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+    element.style.left = `${startLeft + dx}px`;
+    element.style.top = `${startTop + dy}px`;
+  }
+
+  function onMouseUp() {
+    isDragging = false;
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  }
 }
 
-function startTimer() {
-  if (isRunning) return;
-  isRunning = true;
-  timer = setInterval(() => {
-    timeLeft--;
-    document.getElementById('timerDisplay').textContent = formatTime(timeLeft);
-    if (timeLeft <= 0) {
-      clearInterval(timer);
-      isRunning = false;
-      alert('Pomodoro session complete!');
-      timeLeft = 25 * 60; // Reset to 25 minutes
-    }
-  }, 1000);
+function makeResizable(handle) {
+  let isResizing = false;
+  let startX, startY, startWidth, startHeight;
+
+  handle.addEventListener('mousedown', (e) => {
+    isResizing = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    const element = handle.parentElement;
+    startWidth = parseInt(window.getComputedStyle(element).width, 10);
+    startHeight = parseInt(window.getComputedStyle(element).height, 10);
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  });
+
+  function onMouseMove(e) {
+    if (!isResizing) return;
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+    const element = handle.parentElement;
+    element.style.width = `${startWidth + dx}px`;
+    element.style.height = `${startHeight + dy}px`;
+  }
+
+  function onMouseUp() {
+    isResizing = false;
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  }
 }
 
-function stopTimer() {
-  clearInterval(timer);
-  isRunning = false;
-}
-
-function resetTimer() {
-  clearInterval(timer);
-  isRunning = false;
-  timeLeft = 25 * 60; // Reset to 25 minutes
-  document.getElementById('timerDisplay').textContent = formatTime(timeLeft);
-}
-
-document.getElementById('startTimer').addEventListener('click', startTimer);
-document.getElementById('stopTimer').addEventListener('click', stopTimer);
-document.getElementById('resetTimer').addEventListener('click', resetTimer);
-
-// Load Google Slides
+// Define loading functions for all widgets
 function loadGoogleSlides(url) {
   const googleSlidesDiv = document.getElementById('googleSlides');
   googleSlidesDiv.innerHTML = `
@@ -64,9 +113,10 @@ function loadGoogleSlides(url) {
       alert('Please enter a valid Google Slides URL.');
     }
   });
+  makeDraggable(googleSlidesDiv);
+  makeResizable(googleSlidesDiv.querySelector('.resize-handle'));
 }
 
-// Load Google Spreadsheet
 function loadGoogleSpreadsheet(url) {
   const googleSpreadsheetDiv = document.getElementById('googleSpreadsheet');
   googleSpreadsheetDiv.innerHTML = `
@@ -90,9 +140,10 @@ function loadGoogleSpreadsheet(url) {
       alert('Please enter a valid Google Spreadsheet URL.');
     }
   });
+  makeDraggable(googleSpreadsheetDiv);
+  makeResizable(googleSpreadsheetDiv.querySelector('.resize-handle'));
 }
 
-// Load Google Forms
 function loadGoogleForm(url) {
   const googleFormDiv = document.getElementById('googleForm');
   googleFormDiv.innerHTML = `
@@ -116,9 +167,10 @@ function loadGoogleForm(url) {
       alert('Please enter a valid Google Form URL.');
     }
   });
+  makeDraggable(googleFormDiv);
+  makeResizable(googleFormDiv.querySelector('.resize-handle'));
 }
 
-// Load Music Player
 function loadMusic(url) {
   const musicDiv = document.getElementById('music');
   musicDiv.innerHTML = `
@@ -145,9 +197,10 @@ function loadMusic(url) {
       alert('Please enter a valid Music URL.');
     }
   });
+  makeDraggable(musicDiv);
+  makeResizable(musicDiv.querySelector('.resize-handle'));
 }
 
-// Poll Widget
 function loadPoll() {
   const pollDiv = document.getElementById('pollWidget');
   pollDiv.innerHTML = `
@@ -155,312 +208,389 @@ function loadPoll() {
       <h2>Poll</h2>
       <div class="poll-input">
         <input type="text" id="pollQuestion" placeholder="Enter Poll Question" value="Do you like this digital notice board?">
-        <button id="submitPoll">Submit Poll</button>
+        <button id="addOption">Add Option</button>
       </div>
-      <p>Do you like this digital notice board?</p>
-      <button onclick="submitPoll('yes')">Yes</button>
-      <button onclick="submitPoll('no')">No</button>
+      <ul id="pollOptions">
+        <li><input type="checkbox" id="option1"> Option 1</li>
+      </ul>
       <div class="resize-handle se"></div>
     </div>
   `;
+
+  document.getElementById('addOption').addEventListener('click', () => {
+    const pollOptions = document.getElementById('pollOptions');
+    const optionCount = pollOptions.children.length + 1;
+    const li = document.createElement('li');
+    li.innerHTML = `<input type="checkbox" id="option${optionCount}"> Option ${optionCount}`;
+    pollOptions.appendChild(li);
+  });
+  makeDraggable(pollDiv);
+  makeResizable(pollDiv.querySelector('.resize-handle'));
 }
 
-// Book + Quote
-function loadBookAndQuote(book, quote) {
+function loadBookAndQuote(title, quote) {
   const bookQuoteDiv = document.getElementById('bookQuote');
   bookQuoteDiv.innerHTML = `
     <div class="widget">
       <h2>Book & Quote</h2>
       <div class="book-input">
-        <input type="text" id="bookTitle" placeholder="Enter Book Title" value="${book}">
+        <input type="text" id="bookTitle" placeholder="Enter Book Title" value="${title}">
         <input type="text" id="bookQuote" placeholder="Enter Book Quote" value="${quote}">
         <button id="updateBookQuote">Update</button>
       </div>
-      <p><strong>Book:</strong> ${book}</p>
-      <p><strong>Quote:</strong> "${quote}"</p>
+      <div class="book-info">
+        <p id="bookTitleDisplay">${title}</p>
+        <p id="bookQuoteDisplay">${quote}</p>
+      </div>
       <div class="resize-handle se"></div>
     </div>
   `;
+
+  document.getElementById('updateBookQuote').addEventListener('click', () => {
+    const newTitle = document.getElementById('bookTitle').value;
+    const newQuote = document.getElementById('bookQuote').value;
+    if (newTitle && newQuote) {
+      document.getElementById('bookTitleDisplay').textContent = newTitle;
+      document.getElementById('bookQuoteDisplay').textContent = newQuote;
+      localStorage.setItem('bookTitle', newTitle);
+      localStorage.setItem('bookQuote', newQuote);
+    } else {
+      alert('Please enter both title and quote.');
+    }
+  });
+  makeDraggable(bookQuoteDiv);
+  makeResizable(bookQuoteDiv.querySelector('.resize-handle'));
 }
 
-// Issue Tracker
 function loadIssueTracker() {
   const issueTrackerDiv = document.getElementById('issueTracker');
   issueTrackerDiv.innerHTML = `
     <div class="widget">
       <h2>Issue Tracker</h2>
       <div class="issue-input">
-        <textarea id="issueDescription" placeholder="Describe the issue"></textarea>
-        <button id="submitIssue">Submit Issue</button>
+        <input type="text" id="issueTitle" placeholder="Enter Issue Title">
+        <input type="text" id="issueDescription" placeholder="Enter Issue Description">
+        <button id="addIssue">Add Issue</button>
       </div>
+      <ul id="issueList"></ul>
       <div class="resize-handle se"></div>
     </div>
   `;
+
+  document.getElementById('addIssue').addEventListener('click', () => {
+    const title = document.getElementById('issueTitle').value;
+    const description = document.getElementById('issueDescription').value;
+    if (title && description) {
+      const issueList = document.getElementById('issueList');
+      const li = document.createElement('li');
+      li.textContent = `${title}: ${description}`;
+      issueList.appendChild(li);
+      document.getElementById('issueTitle').value = '';
+      document.getElementById('issueDescription').value = '';
+    } else {
+      alert('Please enter both title and description.');
+    }
+  });
+  makeDraggable(issueTrackerDiv);
+  makeResizable(issueTrackerDiv.querySelector('.resize-handle'));
 }
 
-// DGC (Daily Growth Checklist)
 function loadDGC() {
   const dgcDiv = document.getElementById('dgc');
   dgcDiv.innerHTML = `
     <div class="widget">
-      <h2>Daily Growth Checklist</h2>
-      <ul>
-        <li><input type="checkbox"> Task 1</li>
-        <li><input type="checkbox"> Task 2</li>
-        <li><input type="checkbox"> Task 3</li>
-      </ul>
+      <h2>Daily Goal Calculator</h2>
+      <div class="dgc-input">
+        <input type="number" id="totalGoal" placeholder="Total Goal">
+        <input type="number" id="daysRemaining" placeholder="Days Remaining">
+        <button id="calculateGoal">Calculate</button>
+      </div>
+      <p id="dailyGoal">Daily Goal: 0</p>
       <div class="resize-handle se"></div>
     </div>
   `;
+
+  document.getElementById('calculateGoal').addEventListener('click', () => {
+    const totalGoal = parseFloat(document.getElementById('totalGoal').value);
+    const daysRemaining = parseInt(document.getElementById('daysRemaining').value, 10);
+    if (!isNaN(totalGoal) && !isNaN(daysRemaining) && daysRemaining > 0) {
+      const dailyGoal = (totalGoal / daysRemaining).toFixed(2);
+      document.getElementById('dailyGoal').textContent = `Daily Goal: ${dailyGoal}`;
+    } else {
+      alert('Please enter valid numbers.');
+    }
+  });
+  makeDraggable(dgcDiv);
+  makeResizable(dgcDiv.querySelector('.resize-handle'));
 }
 
-// Announcements
 function loadAnnouncements() {
   const announcementsDiv = document.getElementById('announcements');
   announcementsDiv.innerHTML = `
     <div class="widget">
       <h2>Announcements</h2>
-      <div class="announcements">
-        <marquee>Important Announcement: The new policy will be effective from next month.</marquee>
+      <div class="announcements-input">
+        <input type="text" id="announcementTitle" placeholder="Enter Announcement Title">
+        <input type="text" id="announcementBody" placeholder="Enter Announcement Body">
+        <button id="addAnnouncement">Add Announcement</button>
       </div>
-      <div class="resize-handle se"></div>
-    </div>
-  `;
-}
-
-// Steps/Health Tracker
-function loadStepsTracker() {
-  const stepsDiv = document.getElementById('stepsTracker');
-  stepsDiv.innerHTML = `
-    <div class="widget">
-      <h2>Steps Tracker</h2>
-      <div class="steps-input">
-        <p>Steps Walked Today: <span id="stepsCount">0</span></p>
-        <button id="increaseSteps">Increase Steps</button>
-      </div>
+      <ul id="announcementList"></ul>
       <div class="resize-handle se"></div>
     </div>
   `;
 
-  document.getElementById('increaseSteps').addEventListener('click', () => {
-    const stepsCount = document.getElementById('stepsCount');
-    stepsCount.textContent = parseInt(stepsCount.textContent) + 1000;
+  document.getElementById('addAnnouncement').addEventListener('click', () => {
+    const title = document.getElementById('announcementTitle').value;
+    const body = document.getElementById('announcementBody').value;
+    if (title && body) {
+      const announcementList = document.getElementById('announcementList');
+      const li = document.createElement('li');
+      li.textContent = `${title}: ${body}`;
+      announcementList.appendChild(li);
+      document.getElementById('announcementTitle').value = '';
+      document.getElementById('announcementBody').value = '';
+    } else {
+      alert('Please enter both title and body.');
+    }
   });
+  makeDraggable(announcementsDiv);
+  makeResizable(announcementsDiv.querySelector('.resize-handle'));
 }
 
-// Opportunity Board
 function loadOpportunityBoard() {
   const opportunityBoardDiv = document.getElementById('opportunityBoard');
   opportunityBoardDiv.innerHTML = `
     <div class="widget">
       <h2>Opportunity Board</h2>
-      <ul>
-        <li>AI Team: Automate repetitive tasks.</li>
-        <li>Engineering Team: Develop an in-house tool for marketing.</li>
-      </ul>
+      <div class="opportunity-input">
+        <input type="text" id="opportunityTitle" placeholder="Enter Opportunity Title">
+        <input type="text" id="opportunityDescription" placeholder="Enter Opportunity Description">
+        <button id="addOpportunity">Add Opportunity</button>
+      </div>
+      <ul id="opportunityList"></ul>
       <div class="resize-handle se"></div>
     </div>
   `;
+
+  document.getElementById('addOpportunity').addEventListener('click', () => {
+    const title = document.getElementById('opportunityTitle').value;
+    const description = document.getElementById('opportunityDescription').value;
+    if (title && description) {
+      const opportunityList = document.getElementById('opportunityList');
+      const li = document.createElement('li');
+      li.textContent = `${title}: ${description}`;
+      opportunityList.appendChild(li);
+      document.getElementById('opportunityTitle').value = '';
+      document.getElementById('opportunityDescription').value = '';
+    } else {
+      alert('Please enter both title and description.');
+    }
+  });
+  makeDraggable(opportunityBoardDiv);
+  makeResizable(opportunityBoardDiv.querySelector('.resize-handle'));
 }
 
-// Leaderboard
 function loadLeaderboard() {
   const leaderboardDiv = document.getElementById('leaderboard');
   leaderboardDiv.innerHTML = `
     <div class="widget">
       <h2>Leaderboard</h2>
-      <ul>
-        <li>Most Steps Walked: 5000</li>
-        <li>Most Pages Read: 5</li>
-        <li>Most Pomodoro Timers Completed: 8</li>
-      </ul>
+      <div class="leaderboard-input">
+        <input type="text" id="playerName" placeholder="Enter Player Name">
+        <input type="number" id="playerScore" placeholder="Enter Player Score">
+        <button id="addScore">Add Score</button>
+      </div>
+      <ul id="leaderboardList"></ul>
       <div class="resize-handle se"></div>
     </div>
   `;
+
+  document.getElementById('addScore').addEventListener('click', () => {
+    const name = document.getElementById('playerName').value;
+    const score = parseInt(document.getElementById('playerScore').value, 10);
+    if (name && !isNaN(score)) {
+      const leaderboardList = document.getElementById('leaderboardList');
+      const li = document.createElement('li');
+      li.textContent = `${name}: ${score}`;
+      leaderboardList.appendChild(li);
+      document.getElementById('playerName').value = '';
+      document.getElementById('playerScore').value = '';
+    } else {
+      alert('Please enter both player name and score.');
+    }
+  });
+  makeDraggable(leaderboardDiv);
+  makeResizable(leaderboardDiv.querySelector('.resize-handle'));
 }
 
-// TIL (Today I Learned) Corner
 function loadTIL() {
   const tilDiv = document.getElementById('til');
   tilDiv.innerHTML = `
     <div class="widget">
       <h2>Today I Learned</h2>
-      <p>Content from a recent book/blog relevant to the domain.</p>
+      <div class="til-input">
+        <input type="text" id="tilTitle" placeholder="Enter TIL Title">
+        <input type="text" id="tilDescription" placeholder="Enter TIL Description">
+        <button id="addTIL">Add TIL</button>
+      </div>
+      <ul id="tilList"></ul>
       <div class="resize-handle se"></div>
     </div>
   `;
+
+  document.getElementById('addTIL').addEventListener('click', () => {
+    const title = document.getElementById('tilTitle').value;
+    const description = document.getElementById('tilDescription').value;
+    if (title && description) {
+      const tilList = document.getElementById('tilList');
+      const li = document.createElement('li');
+      li.textContent = `${title}: ${description}`;
+      tilList.appendChild(li);
+      document.getElementById('tilTitle').value = '';
+      document.getElementById('tilDescription').value = '';
+    } else {
+      alert('Please enter both title and description.');
+    }
+  });
+  makeDraggable(tilDiv);
+  makeResizable(tilDiv.querySelector('.resize-handle'));
 }
 
-// Google Calendar
 function loadGoogleCalendar() {
   const googleCalendarDiv = document.getElementById('googleCalendar');
   googleCalendarDiv.innerHTML = `
     <div class="widget">
       <h2>Google Calendar</h2>
-      <iframe src="https://calendar.google.com/calendar/embed?src=your-calendar-id&ctz=America%2FNew_York" width="100%" height="600" frameborder="0"></iframe>
+      <div class="calendar-input">
+        <input type="text" id="calendarUrl" placeholder="Enter Google Calendar URL">
+        <button id="loadCalendar">Load Calendar</button>
+      </div>
+      <iframe src="https://calendar.google.com/calendar/embed?src=${document.getElementById('calendarUrl').value}" style="border: 0" width="100%" height="600" frameborder="0" scrolling="no"></iframe>
       <div class="resize-handle se"></div>
     </div>
   `;
+
+  document.getElementById('loadCalendar').addEventListener('click', () => {
+    const newUrl = document.getElementById('calendarUrl').value;
+    if (newUrl) {
+      localStorage.setItem('googleCalendarUrl', newUrl);
+      loadGoogleCalendar();
+    } else {
+      alert('Please enter a valid Google Calendar URL.');
+    }
+  });
+  makeDraggable(googleCalendarDiv);
+  makeResizable(googleCalendarDiv.querySelector('.resize-handle'));
 }
 
-// Google Meet
 function loadGoogleMeet() {
   const googleMeetDiv = document.getElementById('googleMeet');
   googleMeetDiv.innerHTML = `
     <div class="widget">
       <h2>Google Meet</h2>
-      <a href="https://meet.google.com/your-meet-link" target="_blank">Join Google Meet</a>
+      <div class="meet-input">
+        <input type="text" id="meetUrl" placeholder="Enter Google Meet URL">
+        <button id="loadMeet">Load Meet</button>
+      </div>
+      <iframe src="${document.getElementById('meetUrl').value}" width="100%" height="600" frameborder="0" allowfullscreen="true"></iframe>
       <div class="resize-handle se"></div>
     </div>
   `;
+
+  document.getElementById('loadMeet').addEventListener('click', () => {
+    const newUrl = document.getElementById('meetUrl').value;
+    if (newUrl) {
+      localStorage.setItem('googleMeetUrl', newUrl);
+      loadGoogleMeet();
+    } else {
+      alert('Please enter a valid Google Meet URL.');
+    }
+  });
+  makeDraggable(googleMeetDiv);
+  makeResizable(googleMeetDiv.querySelector('.resize-handle'));
 }
 
-// Google Keep
 function loadGoogleKeep() {
   const googleKeepDiv = document.getElementById('googleKeep');
   googleKeepDiv.innerHTML = `
     <div class="widget">
       <h2>Google Keep</h2>
-      <iframe src="https://keep.google.com" width="100%" height="600" frameborder="0"></iframe>
+      <div class="keep-input">
+        <input type="text" id="keepUrl" placeholder="Enter Google Keep URL">
+        <button id="loadKeep">Load Keep</button>
+      </div>
+      <iframe src="${document.getElementById('keepUrl').value}" width="100%" height="600" frameborder="0" allowfullscreen="true"></iframe>
       <div class="resize-handle se"></div>
     </div>
   `;
+
+  document.getElementById('loadKeep').addEventListener('click', () => {
+    const newUrl = document.getElementById('keepUrl').value;
+    if (newUrl) {
+      localStorage.setItem('googleKeepUrl', newUrl);
+      loadGoogleKeep();
+    } else {
+      alert('Please enter a valid Google Keep URL.');
+    }
+  });
+  makeDraggable(googleKeepDiv);
+  makeResizable(googleKeepDiv.querySelector('.resize-handle'));
 }
 
-// ChatGPT/Perplexity Chat Box
 function loadChatGPT() {
   const chatGPTDiv = document.getElementById('chatGPT');
   chatGPTDiv.innerHTML = `
     <div class="widget">
-      <h2>Chat with AI</h2>
-      <iframe src="https://chat.openai.com" width="100%" height="600" frameborder="0"></iframe>
+      <h2>ChatGPT</h2>
+      <div class="chat-input">
+        <input type="text" id="chatGPTPrompt" placeholder="Enter ChatGPT Prompt">
+        <button id="sendPrompt">Send Prompt</button>
+      </div>
+      <div id="chatGPTResponse"></div>
       <div class="resize-handle se"></div>
     </div>
   `;
+
+  document.getElementById('sendPrompt').addEventListener('click', () => {
+    const prompt = document.getElementById('chatGPTPrompt').value;
+    if (prompt) {
+      // Assuming you have a function to send prompt to ChatGPT API
+      sendChatGPTPrompt(prompt).then(response => {
+        document.getElementById('chatGPTResponse').textContent = response;
+      }).catch(error => {
+        alert('Error: ' + error.message);
+      });
+    } else {
+      alert('Please enter a prompt.');
+    }
+  });
+  makeDraggable(chatGPTDiv);
+  makeResizable(chatGPTDiv.querySelector('.resize-handle'));
 }
 
-// Notion Page
 function loadNotionPage() {
   const notionPageDiv = document.getElementById('notionPage');
   notionPageDiv.innerHTML = `
     <div class="widget">
       <h2>Notion Page</h2>
-      <iframe src="https://notion.so/your-notion-page-link" width="100%" height="600" frameborder="0"></iframe>
+      <div class="notion-input">
+        <input type="text" id="notionUrl" placeholder="Enter Notion Page URL">
+        <button id="loadNotion">Load Notion</button>
+      </div>
+      <iframe src="${document.getElementById('notionUrl').value}" width="100%" height="600" frameborder="0" allowfullscreen="true"></iframe>
       <div class="resize-handle se"></div>
     </div>
   `;
-}
 
-// Initialize Widgets
-document.addEventListener('DOMContentLoaded', () => {
-  loadGoogleSlides(localStorage.getItem('googleSlidesUrl') || 'https://docs.google.com/presentation/d/1zkmVGobdPfQgsjIw6gUqJsjB8wvv9uBdT7ZHdaCjZ7Q/edit#slide=id.p');
-  loadGoogleSpreadsheet(localStorage.getItem('googleSpreadsheetUrl') || 'https://docs.google.com/spreadsheets/d/1D0mR9Vv9-cU8Wj7O7GT1gT9Fq3vT8xkfwZs5mM7w8Wg/edit?usp=sharing');
-  loadGoogleForm(localStorage.getItem('googleFormUrl') || 'https://docs.google.com/forms/d/e/1FAIpQLSfD_tWcd5MRbJtPqXtiR8u7C6q4jqYosYMyOuRIVfzMOfZ9gA/viewform');
-  loadMusic(localStorage.getItem('musicUrl') || 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
-  loadPoll();
-  loadBookAndQuote('The Great Gatsby', 'So we beat on, boats against the current, borne back ceaselessly into the past.');
-  loadIssueTracker();
-  loadDGC();
-  loadAnnouncements();
-  loadStepsTracker();
-  loadOpportunityBoard();
-  loadLeaderboard();
-  loadTIL();
-  loadGoogleCalendar();
-  loadGoogleMeet();
-  loadGoogleKeep();
-  loadChatGPT();
-  loadNotionPage();
-});
-
-// Resize functionality
-function initializeResize() {
-  document.querySelectorAll('.widget').forEach(widget => {
-    const handle = widget.querySelector('.resize-handle');
-    if (handle) {
-      handle.addEventListener('mousedown', e => {
-        const startX = e.clientX;
-        const startY = e.clientY;
-        const startWidth = parseInt(window.getComputedStyle(widget).width, 10);
-        const startHeight = parseInt(window.getComputedStyle(widget).height, 10);
-
-        function onMouseMove(e) {
-          widget.style.width = `${startWidth + e.clientX - startX}px`;
-          widget.style.height = `${startHeight + e.clientY - startY}px`;
-        }
-
-        function onMouseUp() {
-          document.removeEventListener('mousemove', onMouseMove);
-          document.removeEventListener('mouseup', onMouseUp);
-        }
-
-        document.addEventListener('mousemove', onMouseMove);
-        document.addEventListener('mouseup', onMouseUp);
-      });
+  document.getElementById('loadNotion').addEventListener('click', () => {
+    const newUrl = document.getElementById('notionUrl').value;
+    if (newUrl) {
+      localStorage.setItem('notionPageUrl', newUrl);
+      loadNotionPage();
+    } else {
+      alert('Please enter a valid Notion Page URL.');
     }
   });
+  makeDraggable(notionPageDiv);
+  makeResizable(notionPageDiv.querySelector('.resize-handle'));
 }
-
-// Drag and Drop Functionality
-function makeDraggable(element) {
-  let isDragging = false;
-  let startX, startY, initialLeft, initialTop;
-
-  element.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    startX = e.clientX;
-    startY = e.clientY;
-    initialLeft = parseInt(window.getComputedStyle(element).left, 10) || 0;
-    initialTop = parseInt(window.getComputedStyle(element).top, 10) || 0;
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
-  });
-
-  function onMouseMove(e) {
-    if (!isDragging) return;
-    const dx = e.clientX - startX;
-    const dy = e.clientY - startY;
-    element.style.left = `${initialLeft + dx}px`;
-    element.style.top = `${initialTop + dy}px`;
-  }
-
-  function onMouseUp() {
-    isDragging = false;
-    document.removeEventListener('mousemove', onMouseMove);
-    document.removeEventListener('mouseup', onMouseUp);
-  }
-}
-
-// Initialize Widgets
-document.addEventListener('DOMContentLoaded', () => {
-  // Initialize draggable functionality for all widgets
-  document.querySelectorAll('.widget').forEach(widget => {
-    makeDraggable(widget);
-  });
-  
-  // Initialize resize functionality
-  initializeResize();
-
-  // Load widgets
-  loadGoogleSlides(localStorage.getItem('googleSlidesUrl') || 'https://docs.google.com/presentation/d/1zkmVGobdPfQgsjIw6gUqJsjB8wvv9uBdT7ZHdaCjZ7Q/edit#slide=id.p');
-  loadGoogleSpreadsheet(localStorage.getItem('googleSpreadsheetUrl') || 'https://docs.google.com/spreadsheets/d/1D0mR9Vv9-cU8Wj7O7GT1gT9Fq3vT8xkfwZs5mM7w8Wg/edit?usp=sharing');
-  loadGoogleForm(localStorage.getItem('googleFormUrl') || 'https://docs.google.com/forms/d/e/1FAIpQLSfD_tWcd5MRbJtPqXtiR8u7C6q4jqYosYMyOuRIVfzMOfZ9gA/viewform');
-  loadMusic(localStorage.getItem('musicUrl') || 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
-  loadPoll();
-  loadBookAndQuote('The Great Gatsby', 'So we beat on, boats against the current, borne back ceaselessly into the past.');
-  loadIssueTracker();
-  loadDGC();
-  loadAnnouncements();
-  loadStepsTracker();
-  loadOpportunityBoard();
-  loadLeaderboard();
-  loadTIL();
-  loadGoogleCalendar();
-  loadGoogleMeet();
-  loadGoogleKeep();
-  loadChatGPT();
-  loadNotionPage();
-});
-
-
-
