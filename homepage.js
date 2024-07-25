@@ -1,4 +1,55 @@
 // Initialize widgets with stored values and add interactive features
+// homepage.js
+
+let timer;
+let timeLeft = 25 * 60;
+let isRunning = false;
+
+function formatTime(seconds) {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${minutes < 10 ? '0' : ''}${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+}
+
+function updateDisplay() {
+  const display = document.getElementById('timerDisplay');
+  display.textContent = formatTime(timeLeft);
+}
+
+function startTimer() {
+  if (isRunning) return;
+  isRunning = true;
+  timer = setInterval(() => {
+    if (timeLeft > 0) {
+      timeLeft--;
+      updateDisplay();
+    } else {
+      clearInterval(timer);
+      isRunning = false;
+      alert("Time's up!");
+    }
+  }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timer);
+  isRunning = false;
+}
+
+function resetTimer() {
+  clearInterval(timer);
+  isRunning = false;
+  timeLeft = 25 * 60;
+  updateDisplay();
+}
+
+document.getElementById('startTimer').addEventListener('click', startTimer);
+document.getElementById('stopTimer').addEventListener('click', stopTimer);
+document.getElementById('resetTimer').addEventListener('click', resetTimer);
+
+// Initialize the timer display
+updateDisplay();
+
 document.addEventListener('DOMContentLoaded', () => {
   // Load Widgets
   loadGoogleSlides(localStorage.getItem('googleSlidesUrl') || 'https://docs.google.com/presentation/d/1zkmVGobdPfQgsjIw6gUqJsjB8wvv9uBdT7ZHdaCjZ7Q/edit#slide=id.p');
