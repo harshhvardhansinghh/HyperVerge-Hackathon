@@ -235,6 +235,7 @@ button:focus {
     justify-content: center;
     position: relative;
     overflow: hidden;
+    height: 188px;
 }
 
 /* Timer Display */
@@ -283,5 +284,17 @@ button:focus {
     height: 510px;
 }
 #googleSlides{
+    height: 510px;
+}
+#bookQuote{
+    height: max-content;
+}
+#music{
+    height: 163px;
+}
+#pollWidget{
+    height: max-content;
+}
+#googleForm{
     height: 510px;
 }
