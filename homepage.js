@@ -593,4 +593,4 @@ function loadNotionPage() {
   });
   makeDraggable(notionPageDiv);
   makeResizable(notionPageDiv.querySelector('.resize-handle'));
-}
+} 
