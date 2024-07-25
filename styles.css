@@ -10,16 +10,17 @@ body {
 .header {
     text-align: center;
     font-size: 2.5em;
-    color: #628171 /* A more professional color */
-    font-family: 'Arial', sans-serif; /* Clean, modern font */
+    color: #7f8a84 /* A more professional color */
+    font-family: 'Montserrat', sans-serif; /* Clean, modern font */
     font-weight: 700; /* Bold font weight */
     text-transform: uppercase; /* Makes the text stand out */
     letter-spacing: 1px; /* Adds spacing between letters for a cleaner look */
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.1)); /* Subtle gradient */
     padding: 20px 0; /* Adds padding for better spacing */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
     border-radius: 5px; /* Slightly rounded corners for a modern touch */
-    display: inline-block; /* Makes the background and shadow only as wide as the text */
+     /* Makes the background and shadow only as wide as the text */
+    
 }
 
 
@@ -351,7 +352,7 @@ button:focus {
     height: max-content;
 }
 #music{
-    height: 163px;
+    height: 164px;
 }
 #pollWidget{
     height: max-content;
