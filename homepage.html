@@ -1,113 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Notice Board</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/interactjs@latest/dist/interact.min.js"></script>
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Notice Board</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/interactjs@latest/dist/interact.min.js"></script>
+</head>
 <body>
-  <h1>Digital Notice Board</h1>
+  <h1 class="header">Digital Notice Board</h1>
 
   <div class="main-container">
-    <div id="announcements" class="widget large-widget">
+    <div id="announcements" class="widget large-widget x borderless">
       <h2>Announcements</h2>
       <!-- Content for Announcements -->
       <div class="resize-handle se"></div>
     </div>
 
+    <div id="pomodoroTimer" class="widget small-widget x borderless">
+      <h2>Pomodoro Timer</h2>
+      <div class="pomodoro-controls">
+        <p id="timerDisplay">25:00</p>
+        <button id="startTimer">Start</button>
+        <button id="stopTimer">Stop</button>
+        <button id="resetTimer">Reset</button>
+      </div>
+      <div class="resize-handle se"></div>
+    </div>
+
+    <div id="music" class="widget small-widget x borderless">
+      <h2>Music</h2>
+      <div class="music-input x">
+        <input type="text" placeholder="Search for music...">
+        <button>Play</button>
+      </div>
+      <!-- Content for Music -->
+      <div class="resize-handle se"></div>
+    </div>
+
     <div class="flex-container">
-      <div id="googleSlides" class="widget medium-widget">
+      <div id="googleSlides" class="widget medium-widget x borderless">
         <h2>Google Slides</h2>
-        <!-- Content for Google Slides -->
-        <div class="resize-handle se"></div>
-      </div>
-
-      <div id="pomodoroTimer" class="widget small-widget">
-        <h2>Pomodoro Timer</h2>
-        <div class="pomodoro-controls">
-          <p id="timerDisplay">25:00</p>
-          <button id="startTimer">Start</button>
-          <button id="stopTimer">Stop</button>
-          <button id="resetTimer">Reset</button>
+        <div class="slide-input">
+          <input type="text" id="slideUrl" placeholder="Enter Google Slides URL">
+          <button id="loadSlide">Load Slide</button>
         </div>
+        <iframe id="slidesFrame" src="" frameborder="0" width="100%" height="300" allowfullscreen="true"></iframe>
         <div class="resize-handle se"></div>
       </div>
 
-      <div id="music" class="widget small-widget">
-        <h2>Music</h2>
-        <div class="music-input">
-          <input type="text" placeholder="Search for music...">
-          <button>Play</button>
+      <div id="googleSpreadsheet" class="widget medium-widget x borderless">
+        <h2>Google Spreadsheet</h2>
+        <div class="sheet-input">
+          <input type="text" id="sheetUrl" placeholder="Enter Google Spreadsheet URL">
+          <button id="loadSheet">Load Sheet</button>
         </div>
-        <!-- Content for Music -->
+        <iframe id="spreadsheetFrame" src="" frameborder="0" width="100%" height="300"></iframe>
+        <div class="resize-handle se"></div>
+      </div>
+
+      <div id="googleForm" class="widget medium-widget x borderless">
+        <h2>Google Form</h2>
+        <div class="form-input">
+          <input type="text" id="formUrl" placeholder="Enter Google Form URL">
+          <button id="loadForm">Load Form</button>
+        </div>
+        <iframe id="formFrame" src="" frameborder="0" width="100%" height="400"></iframe>
         <div class="resize-handle se"></div>
       </div>
     </div>
 
-    <!-- Other widgets are omitted for clarity -->
-    <div id="googleSpreadsheet" class="widget medium-widget">
-      Google Spreadsheet
-      <div class="resize-handle se"></div>
-    </div>
-    <div id="googleForm" class="widget medium-widget">
-      Google Form
-      <div class="resize-handle se"></div>
-    </div>
-    <div id="pollWidget" class="widget small-widget">
+    <div id="pollWidget" class="widget small-widget x borderless">
       Poll Widget
       <div class="resize-handle se"></div>
     </div>
-    <div id="bookQuote" class="widget small-widget">
+    <div id="bookQuote" class="widget small-widget x borderless">
       Book Quote
       <div class="resize-handle se"></div>
     </div>
-    <div id="issueTracker" class="widget medium-widget">
+    <div id="issueTracker" class="widget medium-widget x">
       Issue Tracker
       <div class="resize-handle se"></div>
     </div>
-    <div id="dgc" class="widget small-widget">
+    <div id="dgc" class="widget small-widget x">
       DGC
       <div class="resize-handle se"></div>
     </div>
-    <div id="stepsTracker" class="widget small-widget">
+    <div id="stepsTracker" class="widget small-widget x">
       Steps Tracker
       <div class="resize-handle se"></div>
     </div>
-    <div id="opportunityBoard" class="widget medium-widget">
+    <div id="opportunityBoard" class="widget medium-widget x">
       Opportunity Board
       <div class="resize-handle se"></div>
     </div>
-    <div id="leaderboard" class="widget large-widget">
+    <div id="leaderboard" class="widget large-widget x">
       Leaderboard
       <div class="resize-handle se"></div>
     </div>
-    <div id="til" class="widget small-widget">
+    <div id="til" class="widget small-widget x">
       Today I Learned
       <div class="resize-handle se"></div>
     </div>
-    <div id="googleCalendar" class="widget medium-widget">
+    <div id="googleCalendar" class="widget medium-widget x">
       Google Calendar
       <div class="resize-handle se"></div>
     </div>
-    <div id="googleMeet" class="widget small-widget">
+    <div id="googleMeet" class="widget small-widget x">
       Google Meet
       <div class="resize-handle se"></div>
     </div>
-    <div id="googleKeep" class="widget small-widget">
+    <div id="googleKeep" class="widget small-widget x">
       Google Keep
       <div class="resize-handle se"></div>
     </div>
-    <div id="chatGPT" class="widget medium-widget">
+    <div id="chatGPT" class="widget medium-widget  x">
       ChatGPT
       <div class="resize-handle se"></div>
     </div>
-    <div id="notionPage" class="widget large-widget">
+    <div id="notionPage" class="widget large-widget x">
       Notion Page
       <div class="resize-handle se"></div>
     </div>
-    <div id="meta" class="widget small-widget">
+    <div id="meta" class="widget small-widget x">
       Meta
       <div class="resize-handle se"></div>
     </div>

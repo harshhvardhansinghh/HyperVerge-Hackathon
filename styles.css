@@ -1,15 +1,21 @@
 /* General styles */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f4f4f9;
+    font-family: 'Montserrat', Tahoma, Geneva, Verdana, sans-serif;
+    background-image: url('https://wallpapercave.com/wp/wp9265048.jpg');
+
     margin: 0;
     padding: 0;
     color: #333;
+}
+.header{
+    text-align: center;
+    color: #ac7817;
 }
 
 /* Main container styles */
 .main-container {
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
     gap: 20px;
     padding: 20px;
@@ -29,16 +35,37 @@ body {
 .widget {
     background: #fff;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Adjusted shadow to reduce double border effect */
     transition: box-shadow 0.3s ease, transform 0.3s ease;
     position: relative;
     padding: 20px;
     overflow: hidden;
 }
 
+.widget.no-border {
+    border: none;
+}
+
 .widget:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Adjusted shadow for hover state */
     transform: translateY(-5px);
+}
+
+/* Announcements specific styles */
+.announcement-widget {
+    background: none;
+    box-shadow: none;
+    padding: 0;
+}
+.x{
+    background: none;
+    box-shadow: none;
+    padding: 0; 
+}
+.announcement-widget h2 {
+    font-size: 2em;
+    margin: 0 0 10px;
+    color: #000000; /* Adjust color as needed */
 }
 
 /* Widget sizing */
@@ -136,4 +163,3 @@ button:disabled {
     cursor: not-allowed; /* Change cursor to indicate disabled state */
     box-shadow: none; /* Remove shadow */
 }
-
