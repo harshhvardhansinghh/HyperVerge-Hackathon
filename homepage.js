@@ -2,7 +2,7 @@
 // homepage.js
 
 let timer;
-let timeLeft = 25 * 60;
+let timeLeft = 30 * 60; // Initial time
 let isRunning = false;
 
 function formatTime(seconds) {
@@ -39,13 +39,20 @@ function stopTimer() {
 function resetTimer() {
   clearInterval(timer);
   isRunning = false;
-  timeLeft = 25 * 60;
+  timeLeft = 30 * 60; // Reset to default
+  updateDisplay();
+}
+
+function adjustTime(amount) {
+  timeLeft = Math.max(0, timeLeft + amount);
   updateDisplay();
 }
 
 document.getElementById('startTimer').addEventListener('click', startTimer);
 document.getElementById('stopTimer').addEventListener('click', stopTimer);
 document.getElementById('resetTimer').addEventListener('click', resetTimer);
+document.getElementById('increaseTime').addEventListener('click', () => adjustTime(5 * 60)); // Increase by 5 minutes
+document.getElementById('decreaseTime').addEventListener('click', () => adjustTime(-5 * 60)); // Decrease by 5 minutes
 
 // Initialize the timer display
 updateDisplay();
