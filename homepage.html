@@ -16,26 +16,26 @@
   <div class="main-container">
     <!-- Widgets with resize handles -->
     <div class="widget-container">
-    <div id="pomodoroTimer" class="widget small-widget x borderless">
-      <h2>Pomodoro Timer</h2>
-      <div class="pomodoro-controls">
-        <p id="timerDisplay">30:00</p>
-        <div class="time-controls">
-          <button id="decreaseTime" class="time-control-btn">- 5 min</button>
-          <button id="increaseTime" class="time-control-btn">+ 5 min</button>
+      <div id="pomodoroTimer" class="widget small-widget x borderless">
+        <h2>Pomodoro Timer</h2>
+        <div class="pomodoro-controls">
+          <p id="timerDisplay">30:00</p>
+          <div class="time-controls">
+            <button id="decreaseTime" class="time-control-btn">- 5 min</button>
+            <button id="increaseTime" class="time-control-btn">+ 5 min</button>
+          </div>
+          <button id="startTimer">Start</button>
+          <button id="stopTimer">Stop</button>
+          <button id="resetTimer">Reset</button>
+        </div>
+        <div class="resize-handle se"></div>
       </div>
-        <button id="startTimer">Start</button>
-        <button id="stopTimer">Stop</button>
-        <button id="resetTimer">Reset</button>
+      <div id="bookQuote" class="widget small-widget x borderless">
+        Book Quote
+        <div class="resize-handle se"></div>
       </div>
-      <div class="resize-handle se"></div>
     </div>
-    <div id="bookQuote" class="widget small-widget x borderless">
-      Book Quote
-      <div class="resize-handle se"></div>
-    </div>
-    </div>
-    <div id="announcements" class="widget large-widget x ">
+    <div id="announcements" class="widget large-widget x">
       <h2>Announcements</h2>
       <div class="announcement-content">
         <p>hiiii</p>
@@ -43,18 +43,18 @@
       <div class="resize-handle se"></div>
     </div>
     <div class="widget-container">
-    <div id="music" class="widget small-widget x borderless">
-      <h2>Music</h2>
-      <div class="music-input x">
-        <input type="text" placeholder="Search for music...">
-        <button>Play</button>
+      <div id="music" class="widget small-widget x borderless">
+        <h2>Music</h2>
+        <div class="music-input x">
+          <input type="text" placeholder="Search for music...">
+          <button>Play</button>
+        </div>
+        <div class="resize-handle se"></div>
       </div>
-      <div class="resize-handle se"></div>
-    </div>
-    <div id="pollWidget" class="widget small-widget x borderless">
-      Poll Widget
-      <div class="resize-handle se"></div>
-    </div>
+      <div id="pollWidget" class="widget small-widget x borderless">
+        Poll Widget
+        <div class="resize-handle se"></div>
+      </div>
     </div>
 
     <div class="flex-container">
@@ -89,22 +89,20 @@
       </div>
     </div>
 
-    
-    
     <div id="issueTracker" class="widget medium-widget x borderless">
       Issue Tracker
       <div class="resize-handle se"></div>
     </div>
     <div class="widget-container">
-    <div id="dgc" class="widget small-widget x borderless">
-      DGC
-      <div class="resize-handle se"></div>
+      <div id="dgc" class="widget small-widget x borderless">
+        DGC
+        <div class="resize-handle se"></div>
+      </div>
+      <div id="stepsTracker" class="widget small-widget x borderless">
+        Steps Tracker
+        <div class="resize-handle se"></div>
+      </div>
     </div>
-    <div id="stepsTracker" class="widget small-widget x borderless">
-      Steps Tracker
-      <div class="resize-handle se"></div>
-    </div>
-  </div>
     <div id="opportunityBoard" class="widget medium-widget x borderless">
       Opportunity Board
       <div class="resize-handle se"></div>
@@ -114,7 +112,7 @@
       Leaderboard
       <div class="resize-handle se"></div>
     </div>
-    <div id="til" class="widget small-widget x borderless">
+    <div id="til" class="widget large-widget x borderless">
       Today I Learned
       <div class="resize-handle se"></div>
     </div>
@@ -122,24 +120,11 @@
       Google Calendar
       <div class="resize-handle se"></div>
     </div>
-    <div class="widget-container">
-    <div id="googleMeet" class="widget small-widget x borderless">
-      Google Meet
-      <div class="resize-handle se"></div>
-    </div>
-    <div id="googleKeep" class="widget small-widget x borderless">
-      Google Keep
-      <div class="resize-handle se"></div>
-    </div>
-    </div>
-    <div id="chatGPT" class="widget medium-widget x borderless">
-      ChatGPT
-      <div class="resize-handle se"></div>
-    </div>
     <div id="notionPage" class="widget large-widget x borderless">
       Notion Page
       <div class="resize-handle se"></div>
     </div>
+    
     <!-- <div id="meta" class="widget small-widget x borderless">
       Meta
       <div class="resize-handle se"></div>

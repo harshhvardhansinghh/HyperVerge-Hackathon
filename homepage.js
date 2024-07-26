@@ -72,10 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadOpportunityBoard();
   loadLeaderboard();
   loadTIL();
-  loadGoogleCalendar();
-  loadGoogleMeet();
-  loadGoogleKeep();
-  loadChatGPT();
+  loadGoogleCalendar('https://calendar.google.com/calendar/embed?src=harshvv839%40gmail.com&ctz=Asia%2FKolkata');
   loadNotionPage();
   loadFacebookPage();
 
@@ -688,92 +685,7 @@ function loadGoogleCalendar(url) {
   makeResizable(googleCalendarDiv.querySelector('.resize-handle'));
 }
 
-function loadGoogleMeet(url) {
-  const googleMeetDiv = document.getElementById('googleMeet');
-  googleMeetDiv.innerHTML = `
-    <div class="widget">
-      <h2>Google Meet</h2>
-      <div class="meet-input">
-        <input type="text" id="meetUrl" placeholder="Enter Google Meet URL" value="${url}">
-        <button id="loadMeet">Load Meet</button>
-      </div>
-      <iframe src="${url}" style="border: 0" width="100%" height="600" frameborder="0" allow="camera; microphone; fullscreen; display-capture" scrolling="no"></iframe>
-      <div class="resize-handle se"></div>
-    </div>
-  `;
 
-  document.getElementById('loadMeet').addEventListener('click', () => {
-    const newUrl = document.getElementById('meetUrl').value;
-    if (newUrl) {
-      localStorage.setItem('googleMeetUrl', newUrl);
-      loadGoogleMeet(newUrl);
-    } else {
-      alert('Please enter a valid Google Meet URL.');
-    }
-  });
-  makeDraggable(googleMeetDiv);
-  makeResizable(googleMeetDiv.querySelector('.resize-handle'));
-}
-
-
-function loadGoogleKeep(url) {
-  const googleKeepDiv = document.getElementById('googleKeep');
-  googleKeepDiv.innerHTML = `
-    <div class="widget">
-      <h2>Google Keep</h2>
-      <div class="keep-input">
-        <input type="text" id="keepUrl" placeholder="Enter Google Keep URL" value="${url}">
-        <button id="loadKeep">Load Keep</button>
-      </div>
-      <iframe src="${url}" style="border: 0" width="100%" height="600" frameborder="0" scrolling="no"></iframe>
-      <div class="resize-handle se"></div>
-    </div>
-  `;
-
-  document.getElementById('loadKeep').addEventListener('click', () => {
-    const newUrl = document.getElementById('keepUrl').value;
-    if (newUrl) {
-      localStorage.setItem('googleKeepUrl', newUrl);
-      loadGoogleKeep(newUrl);
-    } else {
-      alert('Please enter a valid Google Keep URL.');
-    }
-  });
-  makeDraggable(googleKeepDiv);
-  makeResizable(googleKeepDiv.querySelector('.resize-handle'));
-}
-
-
-function loadChatGPT() {
-  const chatGPTDiv = document.getElementById('chatGPT');
-  chatGPTDiv.innerHTML = `
-    <div class="widget">
-      <h2>ChatGPT</h2>
-      <div class="chat-input">
-        <input type="text" id="chatGPTPrompt" placeholder="Enter ChatGPT Prompt">
-        <button id="sendPrompt">Send Prompt</button>
-      </div>
-      <div id="chatGPTResponse"></div>
-      <div class="resize-handle se"></div>
-    </div>
-  `;
-
-  document.getElementById('sendPrompt').addEventListener('click', () => {
-    const prompt = document.getElementById('chatGPTPrompt').value;
-    if (prompt) {
-      // Assuming you have a function to send prompt to ChatGPT API
-      sendChatGPTPrompt(prompt).then(response => {
-        document.getElementById('chatGPTResponse').textContent = response;
-      }).catch(error => {
-        alert('Error: ' + error.message);
-      });
-    } else {
-      alert('Please enter a prompt.');
-    }
-  });
-  makeDraggable(chatGPTDiv);
-  makeResizable(chatGPTDiv.querySelector('.resize-handle'));
-}
 
 function loadNotionPage() {
   const notionPageDiv = document.getElementById('notionPage');
