@@ -77,7 +77,111 @@ document.addEventListener('DOMContentLoaded', () => {
   loadGoogleKeep();
   loadChatGPT();
   loadNotionPage();
+  loadFacebookPage();
 
+  function loadFacebookPage() {
+    const facebookPageDiv = document.getElementById('facebookPage');
+    const savedUrl = localStorage.getItem('facebookPageUrl') || '';
+    const savedTitle = localStorage.getItem('facebookPageTitle') || 'Facebook Page';
+    const savedDescription = localStorage.getItem('facebookPageDescription') || 'No description available.';
+  
+    facebookPageDiv.innerHTML = `
+      <div class="widget">
+        <h2>${savedTitle}</h2>
+        <div class="facebook-input">
+          <input type="text" id="facebookUrl" placeholder="Enter Facebook Page URL" value="${savedUrl}">
+          <input type="text" id="facebookTitle" placeholder="Enter Page Title" value="${savedTitle}">
+          <textarea id="facebookDescription" placeholder="Enter Page Description">${savedDescription}</textarea>
+          <button id="loadFacebook">Load Facebook Page</button>
+        </div>
+        <div id="facebookIframeContainer">
+          <iframe id="facebookIframe" src="${savedUrl}" width="100%" height="600" frameborder="0" allowfullscreen="true"></iframe>
+        </div>
+        <div class="resize-handle se"></div>
+      </div>
+    `;
+  
+    document.getElementById('loadFacebook').addEventListener('click', () => {
+      const newUrl = document.getElementById('facebookUrl').value;
+      const newTitle = document.getElementById('facebookTitle').value;
+      const newDescription = document.getElementById('facebookDescription').value;
+  
+      if (newUrl) {
+        localStorage.setItem('facebookPageUrl', newUrl);
+        localStorage.setItem('facebookPageTitle', newTitle);
+        localStorage.setItem('facebookPageDescription', newDescription);
+        document.getElementById('facebookIframe').src = newUrl; // Update iframe src
+        document.querySelector('.widget h2').textContent = newTitle; // Update title
+      } else {
+        alert('Please enter a valid Facebook Page URL.');
+      }
+    });
+  
+    makeDraggable(facebookPageDiv);
+    makeResizable(facebookPageDiv.querySelector('.resize-handle'));
+  }
+  
+  // Define makeDraggable and makeResizable functions
+  function makeDraggable(element) {
+    let isDragging = false;
+    let offsetX, offsetY;
+  
+    element.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      offsetX = e.clientX - element.getBoundingClientRect().left;
+      offsetY = e.clientY - element.getBoundingClientRect().top;
+      document.addEventListener('mousemove', drag);
+      document.addEventListener('mouseup', stopDrag);
+    });
+  
+    function drag(e) {
+      if (isDragging) {
+        element.style.left = `${e.clientX - offsetX}px`;
+        element.style.top = `${e.clientY - offsetY}px`;
+      }
+    }
+  
+    function stopDrag() {
+      isDragging = false;
+      document.removeEventListener('mousemove', drag);
+      document.removeEventListener('mouseup', stopDrag);
+    }
+  }
+  
+  function makeResizable(handle) {
+    let isResizing = false;
+    let startX, startY, startWidth, startHeight;
+  
+    handle.addEventListener('mousedown', (e) => {
+      isResizing = true;
+      startX = e.clientX;
+      startY = e.clientY;
+      const widget = handle.parentElement;
+      startWidth = parseInt(document.defaultView.getComputedStyle(widget).width, 10);
+      startHeight = parseInt(document.defaultView.getComputedStyle(widget).height, 10);
+      document.addEventListener('mousemove', resize);
+      document.addEventListener('mouseup', stopResize);
+    });
+  
+    function resize(e) {
+      if (isResizing) {
+        const widget = handle.parentElement;
+        widget.style.width = `${startWidth + e.clientX - startX}px`;
+        widget.style.height = `${startHeight + e.clientY - startY}px`;
+      }
+    }
+  
+    function stopResize() {
+      isResizing = false;
+      document.removeEventListener('mousemove', resize);
+      document.removeEventListener('mouseup', stopResize);
+    }
+  }
+  
+  // Call the function to load the Facebook page widget
+  loadFacebookPage();
+  
+  
   // Apply drag-and-drop and resize functionality to all widgets
   document.querySelectorAll('.widget').forEach(widget => {
     makeDraggable(widget);
@@ -174,6 +278,47 @@ function loadGoogleSlides(url) {
   makeDraggable(googleSlidesDiv);
   makeResizable(googleSlidesDiv.querySelector('.resize-handle'));
 }
+
+// Define loading function for Steps Tracker widget
+function loadStepsTracker() {
+  const stepsTrackerDiv = document.getElementById('stepsTracker');
+  stepsTrackerDiv.innerHTML = `
+    <div class="widget">
+      <h2>Steps Tracker</h2>
+      <div class="steps-input">
+        <input type="number" id="stepsInput" placeholder="Enter steps">
+        <button id="addSteps">Add Steps</button>
+      </div>
+      <p id="totalSteps">Total Steps: 0</p>
+      <div class="resize-handle se"></div>
+    </div>
+  `;
+
+  // Initialize total steps from localStorage
+  let totalSteps = parseInt(localStorage.getItem('totalSteps') || '0', 10);
+  document.getElementById('totalSteps').textContent = `Total Steps: ${totalSteps}`;
+
+  document.getElementById('addSteps').addEventListener('click', () => {
+    const steps = parseInt(document.getElementById('stepsInput').value, 10);
+    if (!isNaN(steps) && steps > 0) {
+      totalSteps += steps;
+      localStorage.setItem('totalSteps', totalSteps);
+      document.getElementById('totalSteps').textContent = `Total Steps: ${totalSteps}`;
+      document.getElementById('stepsInput').value = '';
+    } else {
+      alert('Please enter a valid number of steps.');
+    }
+  });
+
+  makeDraggable(stepsTrackerDiv);
+  makeResizable(stepsTrackerDiv.querySelector('.resize-handle'));
+}
+
+// Call loadStepsTracker in DOMContentLoaded event listener
+document.addEventListener('DOMContentLoaded', () => {
+  // Other widget loading functions...
+  loadStepsTracker();
+});
 
 function loadGoogleSpreadsheet(url) {
   const googleSpreadsheetDiv = document.getElementById('googleSpreadsheet');
@@ -454,32 +599,34 @@ function loadLeaderboard() {
     <div class="widget">
       <h2>Leaderboard</h2>
       <div class="leaderboard-input">
-        <input type="text" id="playerName" placeholder="Enter Player Name">
-        <input type="number" id="playerScore" placeholder="Enter Player Score">
-        <button id="addScore">Add Score</button>
+        <input type="text" id="leaderboardTitle" placeholder="Enter Leaderboard Title">
+        <input type="text" id="leaderboardDescription" placeholder="Enter Leaderboard Description">
+        <button id="addLeaderboard">Add Leaderboard Entry</button>
       </div>
       <ul id="leaderboardList"></ul>
       <div class="resize-handle se"></div>
     </div>
   `;
 
-  document.getElementById('addScore').addEventListener('click', () => {
-    const name = document.getElementById('playerName').value;
-    const score = parseInt(document.getElementById('playerScore').value, 10);
-    if (name && !isNaN(score)) {
+  document.getElementById('addLeaderboard').addEventListener('click', () => {
+    const title = document.getElementById('leaderboardTitle').value;
+    const description = document.getElementById('leaderboardDescription').value;
+    if (title && description) {
       const leaderboardList = document.getElementById('leaderboardList');
       const li = document.createElement('li');
-      li.textContent = `${name}: ${score}`;
+      li.textContent = `${title}: ${description}`;
       leaderboardList.appendChild(li);
-      document.getElementById('playerName').value = '';
-      document.getElementById('playerScore').value = '';
+      document.getElementById('leaderboardTitle').value = '';
+      document.getElementById('leaderboardDescription').value = '';
     } else {
-      alert('Please enter both player name and score.');
+      alert('Please enter both title and description.');
     }
   });
+
   makeDraggable(leaderboardDiv);
   makeResizable(leaderboardDiv.querySelector('.resize-handle'));
 }
+
 
 function loadTIL() {
   const tilDiv = document.getElementById('til');
@@ -514,16 +661,16 @@ function loadTIL() {
   makeResizable(tilDiv.querySelector('.resize-handle'));
 }
 
-function loadGoogleCalendar() {
+function loadGoogleCalendar(url) {
   const googleCalendarDiv = document.getElementById('googleCalendar');
   googleCalendarDiv.innerHTML = `
     <div class="widget">
       <h2>Google Calendar</h2>
       <div class="calendar-input">
-        <input type="text" id="calendarUrl" placeholder="Enter Google Calendar URL">
+        <input type="text" id="calendarUrl" placeholder="Enter Google Calendar URL" value="${url}">
         <button id="loadCalendar">Load Calendar</button>
       </div>
-      <iframe src="https://calendar.google.com/calendar/embed?src=${document.getElementById('calendarUrl').value}" style="border: 0" width="100%" height="600" frameborder="0" scrolling="no"></iframe>
+      <iframe src="${url}" style="border: 0" width="100%" height="600" frameborder="0" scrolling="no"></iframe>
       <div class="resize-handle se"></div>
     </div>
   `;
@@ -532,7 +679,7 @@ function loadGoogleCalendar() {
     const newUrl = document.getElementById('calendarUrl').value;
     if (newUrl) {
       localStorage.setItem('googleCalendarUrl', newUrl);
-      loadGoogleCalendar();
+      loadGoogleCalendar(newUrl);
     } else {
       alert('Please enter a valid Google Calendar URL.');
     }
@@ -541,16 +688,16 @@ function loadGoogleCalendar() {
   makeResizable(googleCalendarDiv.querySelector('.resize-handle'));
 }
 
-function loadGoogleMeet() {
+function loadGoogleMeet(url) {
   const googleMeetDiv = document.getElementById('googleMeet');
   googleMeetDiv.innerHTML = `
     <div class="widget">
       <h2>Google Meet</h2>
       <div class="meet-input">
-        <input type="text" id="meetUrl" placeholder="Enter Google Meet URL">
+        <input type="text" id="meetUrl" placeholder="Enter Google Meet URL" value="${url}">
         <button id="loadMeet">Load Meet</button>
       </div>
-      <iframe src="${document.getElementById('meetUrl').value}" width="100%" height="600" frameborder="0" allowfullscreen="true"></iframe>
+      <iframe src="${url}" style="border: 0" width="100%" height="600" frameborder="0" allow="camera; microphone; fullscreen; display-capture" scrolling="no"></iframe>
       <div class="resize-handle se"></div>
     </div>
   `;
@@ -559,7 +706,7 @@ function loadGoogleMeet() {
     const newUrl = document.getElementById('meetUrl').value;
     if (newUrl) {
       localStorage.setItem('googleMeetUrl', newUrl);
-      loadGoogleMeet();
+      loadGoogleMeet(newUrl);
     } else {
       alert('Please enter a valid Google Meet URL.');
     }
@@ -568,16 +715,17 @@ function loadGoogleMeet() {
   makeResizable(googleMeetDiv.querySelector('.resize-handle'));
 }
 
-function loadGoogleKeep() {
+
+function loadGoogleKeep(url) {
   const googleKeepDiv = document.getElementById('googleKeep');
   googleKeepDiv.innerHTML = `
     <div class="widget">
       <h2>Google Keep</h2>
       <div class="keep-input">
-        <input type="text" id="keepUrl" placeholder="Enter Google Keep URL">
+        <input type="text" id="keepUrl" placeholder="Enter Google Keep URL" value="${url}">
         <button id="loadKeep">Load Keep</button>
       </div>
-      <iframe src="${document.getElementById('keepUrl').value}" width="100%" height="600" frameborder="0" allowfullscreen="true"></iframe>
+      <iframe src="${url}" style="border: 0" width="100%" height="600" frameborder="0" scrolling="no"></iframe>
       <div class="resize-handle se"></div>
     </div>
   `;
@@ -586,7 +734,7 @@ function loadGoogleKeep() {
     const newUrl = document.getElementById('keepUrl').value;
     if (newUrl) {
       localStorage.setItem('googleKeepUrl', newUrl);
-      loadGoogleKeep();
+      loadGoogleKeep(newUrl);
     } else {
       alert('Please enter a valid Google Keep URL.');
     }
@@ -594,6 +742,7 @@ function loadGoogleKeep() {
   makeDraggable(googleKeepDiv);
   makeResizable(googleKeepDiv.querySelector('.resize-handle'));
 }
+
 
 function loadChatGPT() {
   const chatGPTDiv = document.getElementById('chatGPT');
@@ -628,14 +777,16 @@ function loadChatGPT() {
 
 function loadNotionPage() {
   const notionPageDiv = document.getElementById('notionPage');
+  const savedUrl = localStorage.getItem('notionPageUrl') || ''; // Retrieve saved URL
+
   notionPageDiv.innerHTML = `
     <div class="widget">
       <h2>Notion Page</h2>
       <div class="notion-input">
-        <input type="text" id="notionUrl" placeholder="Enter Notion Page URL">
+        <input type="text" id="notionUrl" placeholder="Enter Notion Page URL" value="${savedUrl}">
         <button id="loadNotion">Load Notion</button>
       </div>
-      <iframe src="${document.getElementById('notionUrl').value}" width="100%" height="600" frameborder="0" allowfullscreen="true"></iframe>
+      <iframe id="notionIframe" src="${savedUrl}" width="100%" height="600" frameborder="0" allowfullscreen="true"></iframe>
       <div class="resize-handle se"></div>
     </div>
   `;
@@ -644,11 +795,53 @@ function loadNotionPage() {
     const newUrl = document.getElementById('notionUrl').value;
     if (newUrl) {
       localStorage.setItem('notionPageUrl', newUrl);
-      loadNotionPage();
+      document.getElementById('notionIframe').src = newUrl; // Update iframe src
     } else {
       alert('Please enter a valid Notion Page URL.');
     }
   });
+
   makeDraggable(notionPageDiv);
   makeResizable(notionPageDiv.querySelector('.resize-handle'));
-} 
+}
+function loadFacebookPage() {
+  const facebookPageDiv = document.getElementById('facebookPage');
+  const savedUrl = localStorage.getItem('facebookPageUrl') || '';
+  const savedTitle = localStorage.getItem('facebookPageTitle') || 'Facebook Page';
+  const savedDescription = localStorage.getItem('facebookPageDescription') || 'No description available.';
+
+  facebookPageDiv.innerHTML = `
+    <div class="widget">
+      <h2>${savedTitle}</h2>
+      <div class="facebook-input">
+        <input type="text" id="facebookUrl" placeholder="Enter Facebook Page URL" value="${savedUrl}">
+        <input type="text" id="facebookTitle" placeholder="Enter Page Title" value="${savedTitle}">
+        <textarea id="facebookDescription" placeholder="Enter Page Description">${savedDescription}</textarea>
+        <button id="loadFacebook">Load Facebook Page</button>
+      </div>
+      <div id="facebookIframeContainer">
+        <iframe id="facebookIframe" src="${savedUrl}" width="100%" height="600" frameborder="0" allowfullscreen="true"></iframe>
+      </div>
+      <div class="resize-handle se"></div>
+    </div>
+  `;
+
+  document.getElementById('loadFacebook').addEventListener('click', () => {
+    const newUrl = document.getElementById('facebookUrl').value;
+    const newTitle = document.getElementById('facebookTitle').value;
+    const newDescription = document.getElementById('facebookDescription').value;
+
+    if (newUrl) {
+      localStorage.setItem('facebookPageUrl', newUrl);
+      localStorage.setItem('facebookPageTitle', newTitle);
+      localStorage.setItem('facebookPageDescription', newDescription);
+      document.getElementById('facebookIframe').src = newUrl; // Update iframe src
+      document.querySelector('.widget h2').textContent = newTitle; // Update title
+    } else {
+      alert('Please enter a valid Facebook Page URL.');
+    }
+  });
+
+  makeDraggable(facebookPageDiv);
+  makeResizable(facebookPageDiv.querySelector('.resize-handle'));
+}

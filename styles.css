@@ -9,8 +9,7 @@ body {
 
 .header {
     text-align: center;
-    font-size: 2.5em;
-    color: #7f8a84 /* A more professional color */
+    font-size: 2.5em; /* A more professional color */
     font-family: 'Montserrat', sans-serif; /* Clean, modern font */
     font-weight: 700; /* Bold font weight */
     text-transform: uppercase; /* Makes the text stand out */
